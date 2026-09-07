@@ -508,6 +508,17 @@
     onLevel2();
     document.getElementById("ag").value = "SALES - BROKERAGE & COMMISSION";
     onAg();
+    const params = new URLSearchParams(location.search);
+    if (params.get("tab") === "list") {
+      document.querySelector('[data-pane="list"]').click();
+    }
+    if (params.get("type") === "AC") {
+      document.getElementById("type").value = "AC";
+      onType();
+    }
+    if (params.get("cfl") === "loc") {
+      openCfl("loc");
+    }
   </script>
 </body>
 </html>
