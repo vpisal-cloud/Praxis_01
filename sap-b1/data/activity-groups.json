@@ -1,0 +1,146 @@
+[
+  {
+    "level1": "Sales & Marketing",
+    "level2": "SALES",
+    "activityGroup": "SALES - BROKERAGE & COMMISSION",
+    "type": "Activity Group",
+    "location": "SB-19D",
+    "subLocation": "DEPT-SALES"
+  },
+  {
+    "level1": "Sales & Marketing",
+    "level2": "SALES",
+    "activityGroup": "SALES - EVENTS & EXHIBITION",
+    "type": "Activity Group",
+    "location": "SB-19D",
+    "subLocation": "DEPT-SALES"
+  },
+  {
+    "level1": "Sales & Marketing",
+    "level2": "SALES",
+    "activityGroup": "SALES - CONSULTANTS",
+    "type": "Activity Group",
+    "location": "SB-19D",
+    "subLocation": "DEPT-SALES"
+  },
+  {
+    "level1": "Sales & Marketing",
+    "level2": "SALES",
+    "activityGroup": "SALES - REFERRAL",
+    "type": "Activity Group",
+    "location": "SB-19D",
+    "subLocation": "DEPT-SALES"
+  },
+  {
+    "level1": "Sales & Marketing",
+    "level2": "SALES",
+    "activityGroup": "SALES - ADMIN / HOSPITALITY",
+    "type": "Activity Group",
+    "location": "SB-19D",
+    "subLocation": "DEPT-SALES"
+  },
+  {
+    "level1": "Sales & Marketing",
+    "level2": "SALES",
+    "activityGroup": "SALES - DISCOUNT",
+    "type": "Activity Group",
+    "location": "SB-19D",
+    "subLocation": "DEPT-SALES"
+  },
+  {
+    "level1": "Sales & Marketing",
+    "level2": "MARKETING - PROJECT",
+    "activityGroup": "MARKETING - PROJ EVENTS & EXHIBITION",
+    "type": "Activity Group",
+    "location": "SB-19D",
+    "subLocation": "DEPT-MARKETING"
+  },
+  {
+    "level1": "Sales & Marketing",
+    "level2": "MARKETING - PROJECT",
+    "activityGroup": "MARKETING - PROJ CONSULTANTS",
+    "type": "Activity Group",
+    "location": "SB-19D",
+    "subLocation": "DEPT-MARKETING"
+  },
+  {
+    "level1": "Sales & Marketing",
+    "level2": "MARKETING - PROJECT",
+    "activityGroup": "MARKETING - PROJ DIGITAL MEDIA",
+    "type": "Activity Group",
+    "location": "SB-19D",
+    "subLocation": "DEPT-MARKETING"
+  },
+  {
+    "level1": "Sales & Marketing",
+    "level2": "MARKETING - PROJECT",
+    "activityGroup": "MARKETING - PROJ NON DIGITAL MEDIA",
+    "type": "Activity Group",
+    "location": "SB-19D",
+    "subLocation": "DEPT-MARKETING"
+  },
+  {
+    "level1": "Sales & Marketing",
+    "level2": "MARKETING - BRAND",
+    "activityGroup": "MARKETING - BRAND EVENTS & EXHIBITION",
+    "type": "Activity Group",
+    "location": "SB-19D",
+    "subLocation": "DEPT-MARKETING"
+  },
+  {
+    "level1": "Sales & Marketing",
+    "level2": "MARKETING - BRAND",
+    "activityGroup": "MARKETING - BRAND CONSULTANTS",
+    "type": "Activity Group",
+    "location": "SB-19D",
+    "subLocation": "DEPT-MARKETING"
+  },
+  {
+    "level1": "Sales & Marketing",
+    "level2": "MARKETING - BRAND",
+    "activityGroup": "MARKETING - BRAND DIGITAL MEDIA",
+    "type": "Activity Group",
+    "location": "SB-19D",
+    "subLocation": "DEPT-MARKETING"
+  },
+  {
+    "level1": "Sales & Marketing",
+    "level2": "MARKETING - BRAND",
+    "activityGroup": "MARKETING - BRAND NON DIGITAL MEDIA",
+    "type": "Activity Group",
+    "location": "SB-19D",
+    "subLocation": "DEPT-MARKETING"
+  },
+  {
+    "level1": "Finance",
+    "level2": "Finance",
+    "activityGroup": "FIN - FINANCE COST",
+    "type": "Activity Group",
+    "location": "",
+    "subLocation": ""
+  },
+  {
+    "level1": "Finance",
+    "level2": "Finance",
+    "activityGroup": "FIN - CONSULTANTS",
+    "type": "Activity Group",
+    "location": "",
+    "subLocation": ""
+  },
+  {
+    "level1": "Finance",
+    "level2": "Finance",
+    "activityGroup": "FIN - STATUTORY PAYMENTS",
+    "type": "Activity Group",
+    "location": "",
+    "subLocation": ""
+  },
+  {
+    "level1": "Finance",
+    "level2": "Finance",
+    "activityGroup": "FIN - AUDIT FEES",
+    "type": "Activity Group",
+    "location": "",
+    "subLocation": ""
+  }
+]
