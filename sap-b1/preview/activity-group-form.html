@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SAP B1 Screen Painter — Activity Group</title>
+  <style>
+    :root {
+      --sap-face: #d4d0c8;
+      --sap-face-2: #ece9d8;
+      --sap-title: #0a246a;
+      --sap-title-2: #a6caf0;
+      --sap-field: #ffffff;
+      --sap-cfl: #ffffc8;
+      --sap-ro: #e8e8e8;
+      --sap-border: #808080;
+      --sap-text: #000;
+      --sap-link: #e39c00;
+      --sap-tab: #d4d0c8;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #5a6a7a;
+      font-family: Tahoma, "Segoe UI", sans-serif;
+      font-size: 11px;
+      color: var(--sap-text);
+    }
+    .stage {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 28px 16px 40px;
+      gap: 18px;
+    }
+    h1.page-title {
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0;
+      text-shadow: 0 1px 2px rgba(0,0,0,.35);
+    }
+    .hint {
+      color: #e8eef5;
+      max-width: 760px;
+      text-align: center;
+      line-height: 1.45;
+    }
+    .window {
+      width: 760px;
+      background: var(--sap-face);
+      border: 2px solid #404040;
+      box-shadow: 4px 4px 0 rgba(0,0,0,.25);
+    }
+    .titlebar {
+      height: 22px;
+      background: linear-gradient(90deg, var(--sap-title), var(--sap-title-2));
+      color: #fff;
+      display: flex;
+      align-items: center;
+      padding: 0 6px 0 8px;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: .2px;
+    }
+    .titlebar .sys {
+      margin-left: auto;
+      display: flex;
+      gap: 2px;
+    }
+    .titlebar .sys span {
+      width: 16px;
+      height: 14px;
+      background: var(--sap-face);
+      color: #000;
+      border: 1px solid #fff;
+      border-right-color: #404040;
+      border-bottom-color: #404040;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .menubar {
+      background: var(--sap-face-2);
+      border-bottom: 1px solid #808080;
+      padding: 3px 8px;
+      color: #222;
+    }
+    .menubar b { font-weight: 700; }
+    .tabs {
+      display: flex;
+      gap: 2px;
+      padding: 8px 10px 0;
+      border-bottom: 1px solid #808080;
+    }
+    .tab {
+      background: #c0c0c0;
+      border: 1px solid #808080;
+      border-bottom: none;
+      padding: 4px 14px 3px;
+      cursor: pointer;
+      position: relative;
+      top: 1px;
+    }
+    .tab.active {
+      background: var(--sap-face);
+      font-weight: 700;
+    }
+    .body { padding: 14px 16px 10px; }
+    .pane { display: none; }
+    .pane.active { display: block; }
+    .row {
+      display: flex;
+      align-items: center;
+      min-height: 22px;
+      margin-bottom: 8px;
+    }
+    .lbl {
+      width: 130px;
+      padding-right: 8px;
+    }
+    .lbl.req::after {
+      content: " *";
+      color: #c00;
+    }
+    .ctrl {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .link {
+      width: 12px;
+      height: 12px;
+      background: linear-gradient(180deg, #ffd56a, var(--sap-link));
+      clip-path: polygon(0 0, 100% 50%, 0 100%);
+      flex: none;
+    }
+    input[type="text"], select {
+      height: 20px;
+      border: 1px solid var(--sap-border);
+      font: 11px Tahoma, sans-serif;
+      padding: 1px 4px;
+      background: var(--sap-field);
+    }
+    input.wide, select.wide { width: 320px; }
+    input.mid, select.mid { width: 200px; }
+    input.ro {
+      background: var(--sap-ro);
+      color: #333;
+    }
+    input.cfl, select.cfl { background: var(--sap-cfl); }
+    input:disabled, select:disabled {
+      background: var(--sap-ro);
+      color: #666;
+    }
+    .note {
+      margin: 4px 0 12px 130px;
+      color: #333;
+      font-style: italic;
+      max-width: 420px;
+    }
+    .group {
+      border: 1px solid #a0a0a0;
+      margin: 6px 0 12px;
+      padding: 10px 10px 4px;
+      position: relative;
+    }
+    .group legend {
+      position: absolute;
+      top: -8px;
+      left: 8px;
+      background: var(--sap-face);
+      padding: 0 6px;
+      font-weight: 700;
+    }
+    .btns {
+      display: flex;
+      gap: 8px;
+      padding: 8px 16px 12px;
+    }
+    button.sap {
+      min-width: 70px;
+      height: 22px;
+      background: var(--sap-face);
+      border: 1px solid #fff;
+      border-right-color: #404040;
+      border-bottom-color: #404040;
+      font: 11px Tahoma, sans-serif;
+      cursor: pointer;
+    }
+    .statusbar {
+      height: 20px;
+      background: var(--sap-face-2);
+      border-top: 1px solid #808080;
+      padding: 3px 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+    table.mtx {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+    }
+    table.mtx th, table.mtx td {
+      border: 1px solid #808080;
+      padding: 3px 6px;
+      text-align: left;
+      white-space: nowrap;
+    }
+    table.mtx th {
+      background: #ece9d8;
+      font-weight: 700;
+    }
+    table.mtx tr.sel { background: #b8d0f0; }
+    table.mtx tbody tr { cursor: pointer; }
+    table.mtx tbody tr:hover { background: #dce8f8; }
+    .wrap { overflow: auto; max-height: 280px; border: 1px solid #808080; }
+    .cfl-pop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.25);
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+    }
+    .cfl-pop.open { display: flex; }
+    .cfl-win { width: 560px; }
+    .cfl-win .wrap { max-height: 240px; }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <h1 class="page-title">SAP Business One — Activity Group (Screen Painter mockup)</h1>
+    <p class="hint">
+      Level 2 drives the Activity Group list. Choosing an Activity Group fills Level 1 (and confirms Level 2).
+      Location and Sub Location are manual when Type = Activity Group, and locked when Type = Activity.
+    </p>
+
+    <div class="window" id="mainWin">
+      <div class="titlebar">
+        Activity Group
+        <div class="sys"><span>_</span><span>□</span><span>×</span></div>
+      </div>
+      <div class="menubar">File&nbsp;&nbsp;Edit&nbsp;&nbsp;View&nbsp;&nbsp;Data&nbsp;&nbsp;Go To&nbsp;&nbsp;Modules&nbsp;&nbsp;Tools&nbsp;&nbsp;Window&nbsp;&nbsp;Help</div>
+      <div class="tabs">
+        <div class="tab active" data-pane="general">General</div>
+        <div class="tab" data-pane="list">List</div>
+      </div>
+      <div class="body">
+        <div class="pane active" id="general">
+          <div class="group">
+            <span class="legend">Classification</span>
+            <div class="row">
+              <div class="lbl req">Type</div>
+              <div class="ctrl">
+                <select id="type" class="mid" onchange="onType()">
+                  <option value="AG">Activity Group</option>
+                  <option value="AC">Activity</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="lbl req">Level 2</div>
+              <div class="ctrl">
+                <span class="link" title="Choose from list"></span>
+                <select id="level2" class="wide cfl" onchange="onLevel2()"></select>
+              </div>
+            </div>
+            <p class="note">Activity Group list is loaded from the Level 2 value selected on this header.</p>
+            <div class="row">
+              <div class="lbl req">Activity Group</div>
+              <div class="ctrl">
+                <span class="link" title="Choose from list"></span>
+                <select id="ag" class="wide cfl" onchange="onAg()"></select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="lbl">Level 1</div>
+              <div class="ctrl">
+                <input id="level1" class="wide ro" type="text" readonly value="" />
+              </div>
+            </div>
+          </div>
+          <div class="group">
+            <span class="legend">Location (manual)</span>
+            <div class="row">
+              <div class="lbl">Location</div>
+              <div class="ctrl">
+                <span class="link"></span>
+                <input id="loc" class="mid cfl" type="text" placeholder="Choose from list" onclick="openCfl('loc')" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="lbl">Sub Location</div>
+              <div class="ctrl">
+                <span class="link"></span>
+                <input id="sloc" class="mid cfl" type="text" placeholder="Choose from list" onclick="openCfl('sloc')" />
+              </div>
+            </div>
+            <p class="note" id="locNote">Enabled for Type = Activity Group. Leave empty for Type = Activity.</p>
+          </div>
+        </div>
+        <div class="pane" id="list">
+          <div class="wrap">
+            <table class="mtx" id="mtx">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Level 1</th>
+                  <th>Level 2</th>
+                  <th>Activity Group</th>
+                  <th>Type</th>
+                  <th>Location</th>
+                  <th>Sub Location</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="btns">
+        <button class="sap" type="button">OK</button>
+        <button class="sap" type="button">Cancel</button>
+        <button class="sap" type="button" onclick="resetForm()">Add</button>
+      </div>
+      <div class="statusbar">
+        <span id="status">Ready. Select Level 2 to load Activity Groups.</span>
+        <span>PRAX_AGP &nbsp;|&nbsp; Screen Painter UID layout</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cfl-pop" id="cflPop" onclick="if(event.target===this) closeCfl()">
+    <div class="window cfl-win">
+      <div class="titlebar">Choose from List — <span id="cflTitle"></span>
+        <div class="sys"><span>×</span></div>
+      </div>
+      <div class="body">
+        <div class="wrap">
+          <table class="mtx" id="cflTbl">
+            <thead><tr><th>Code</th><th>Name</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="btns">
+        <button class="sap" type="button" onclick="chooseCfl()">Choose</button>
+        <button class="sap" type="button" onclick="closeCfl()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const DATA = [
+      { l1: "Sales & Marketing", l2: "SALES", ag: "SALES - BROKERAGE & COMMISSION", type: "Activity Group", loc: "SB-19D", sloc: "DEPT-SALES" },
+      { l1: "Sales & Marketing", l2: "SALES", ag: "SALES - EVENTS & EXHIBITION", type: "Activity Group", loc: "SB-19D", sloc: "DEPT-SALES" },
+      { l1: "Sales & Marketing", l2: "SALES", ag: "SALES - CONSULTANTS", type: "Activity Group", loc: "SB-19D", sloc: "DEPT-SALES" },
+      { l1: "Sales & Marketing", l2: "SALES", ag: "SALES - REFERRAL", type: "Activity Group", loc: "SB-19D", sloc: "DEPT-SALES" },
+      { l1: "Sales & Marketing", l2: "SALES", ag: "SALES - ADMIN / HOSPITALITY", type: "Activity Group", loc: "SB-19D", sloc: "DEPT-SALES" },
+      { l1: "Sales & Marketing", l2: "SALES", ag: "SALES - DISCOUNT", type: "Activity Group", loc: "SB-19D", sloc: "DEPT-SALES" },
+      { l1: "Sales & Marketing", l2: "MARKETING - PROJECT", ag: "MARKETING - PROJ EVENTS & EXHIBITION", type: "Activity Group", loc: "SB-19D", sloc: "DEPT-MARKETING" },
+      { l1: "Sales & Marketing", l2: "MARKETING - PROJECT", ag: "MARKETING - PROJ CONSULTANTS", type: "Activity Group", loc: "SB-19D", sloc: "DEPT-MARKETING" },
+      { l1: "Sales & Marketing", l2: "MARKETING - PROJECT", ag: "MARKETING - PROJ DIGITAL MEDIA", type: "Activity Group", loc: "SB-19D", sloc: "DEPT-MARKETING" },
+      { l1: "Sales & Marketing", l2: "MARKETING - PROJECT", ag: "MARKETING - PROJ NON DIGITAL MEDIA", type: "Activity Group", loc: "SB-19D", sloc: "DEPT-MARKETING" },
+      { l1: "Sales & Marketing", l2: "MARKETING - BRAND", ag: "MARKETING - BRAND EVENTS & EXHIBITION", type: "Activity Group", loc: "SB-19D", sloc: "DEPT-MARKETING" },
+      { l1: "Sales & Marketing", l2: "MARKETING - BRAND", ag: "MARKETING - BRAND CONSULTANTS", type: "Activity Group", loc: "SB-19D", sloc: "DEPT-MARKETING" },
+      { l1: "Sales & Marketing", l2: "MARKETING - BRAND", ag: "MARKETING - BRAND DIGITAL MEDIA", type: "Activity Group", loc: "SB-19D", sloc: "DEPT-MARKETING" },
+      { l1: "Sales & Marketing", l2: "MARKETING - BRAND", ag: "MARKETING - BRAND NON DIGITAL MEDIA", type: "Activity Group", loc: "SB-19D", sloc: "DEPT-MARKETING" },
+      { l1: "Finance", l2: "Finance", ag: "FIN - FINANCE COST", type: "Activity Group", loc: "", sloc: "" },
+      { l1: "Finance", l2: "Finance", ag: "FIN - CONSULTANTS", type: "Activity Group", loc: "", sloc: "" },
+      { l1: "Finance", l2: "Finance", ag: "FIN - STATUTORY PAYMENTS", type: "Activity Group", loc: "", sloc: "" },
+      { l1: "Finance", l2: "Finance", ag: "FIN - AUDIT FEES", type: "Activity Group", loc: "", sloc: "" }
+    ];
+    const LOCS = [
+      { code: "SB-19D", name: "SB-19D" },
+      { code: "DEPT-SALES", name: "DEPT-SALES" },
+      { code: "DEPT-MARKETING", name: "DEPT-MARKETING" }
+    ];
+    const level2s = [...new Set(DATA.map(r => r.l2))];
+    let cflTarget = null;
+    let cflPick = null;
+
+    document.querySelectorAll(".tab").forEach(t => {
+      t.onclick = () => {
+        document.querySelectorAll(".tab").forEach(x => x.classList.remove("active"));
+        document.querySelectorAll(".pane").forEach(x => x.classList.remove("active"));
+        t.classList.add("active");
+        document.getElementById(t.dataset.pane).classList.add("active");
+      };
+    });
+
+    function fillLevel2() {
+      const sel = document.getElementById("level2");
+      sel.innerHTML = '<option value="">— select —</option>' +
+        level2s.map(v => `<option value="${v}">${v}</option>`).join("");
+    }
+    function onType() {
+      const ag = document.getElementById("type").value === "AG";
+      document.getElementById("loc").disabled = !ag;
+      document.getElementById("sloc").disabled = !ag;
+      document.getElementById("locNote").textContent = ag
+        ? "Enabled for Type = Activity Group. Manual Choose from List."
+        : "Type = Activity: Location and Sub Location stay empty.";
+      if (!ag) {
+        document.getElementById("loc").value = "";
+        document.getElementById("sloc").value = "";
+      }
+      document.getElementById("status").textContent = ag
+        ? "Type Activity Group: Location / Sub Location are manual."
+        : "Type Activity: Location / Sub Location disabled.";
+    }
+    function onLevel2() {
+      const l2 = document.getElementById("level2").value;
+      const ag = document.getElementById("ag");
+      const rows = DATA.filter(r => r.l2 === l2);
+      ag.innerHTML = '<option value="">— select —</option>' +
+        rows.map(r => `<option value="${r.ag}">${r.ag}</option>`).join("");
+      document.getElementById("level1").value = "";
+      document.getElementById("status").textContent = l2
+        ? `Loaded ${rows.length} Activity Group(s) for Level 2 = ${l2}.`
+        : "Select Level 2 to load Activity Groups.";
+    }
+    function onAg() {
+      const ag = document.getElementById("ag").value;
+      const row = DATA.find(r => r.ag === ag);
+      if (!row) {
+        document.getElementById("level1").value = "";
+        return;
+      }
+      document.getElementById("level1").value = row.l1;
+      document.getElementById("level2").value = row.l2;
+      if (document.getElementById("type").value === "AG") {
+        document.getElementById("loc").value = row.loc;
+        document.getElementById("sloc").value = row.sloc;
+      }
+      document.getElementById("status").textContent =
+        "Level 1 auto-filled from Activity Group. Location remains editable.";
+    }
+    function resetForm() {
+      document.getElementById("type").value = "AG";
+      document.getElementById("level2").value = "";
+      onLevel2();
+      onType();
+      document.getElementById("loc").value = "";
+      document.getElementById("sloc").value = "";
+    }
+    function openCfl(which) {
+      if (document.getElementById("type").value !== "AG") return;
+      cflTarget = which;
+      cflPick = null;
+      document.getElementById("cflTitle").textContent =
+        which === "loc" ? "Location" : "Sub Location";
+      const codes = which === "loc"
+        ? [{ code: "SB-19D", name: "Site SB-19D" }]
+        : [
+            { code: "DEPT-SALES", name: "Sales department" },
+            { code: "DEPT-MARKETING", name: "Marketing department" }
+          ];
+      const tb = document.querySelector("#cflTbl tbody");
+      tb.innerHTML = codes.map(c =>
+        `<tr data-code="${c.code}"><td>${c.code}</td><td>${c.name}</td></tr>`
+      ).join("");
+      tb.querySelectorAll("tr").forEach(tr => {
+        tr.onclick = () => {
+          tb.querySelectorAll("tr").forEach(x => x.classList.remove("sel"));
+          tr.classList.add("sel");
+          cflPick = tr.dataset.code;
+        };
+        tr.ondblclick = () => { cflPick = tr.dataset.code; chooseCfl(); };
+      });
+      document.getElementById("cflPop").classList.add("open");
+    }
+    function chooseCfl() {
+      if (cflPick) document.getElementById(cflTarget).value = cflPick;
+      closeCfl();
+    }
+    function closeCfl() {
+      document.getElementById("cflPop").classList.remove("open");
+    }
+    function renderList() {
+      const tb = document.querySelector("#mtx tbody");
+      tb.innerHTML = DATA.map((r, i) =>
+        `<tr><td>${i + 1}</td><td>${r.l1}</td><td>${r.l2}</td><td>${r.ag}</td><td>${r.type}</td><td>${r.loc}</td><td>${r.sloc}</td></tr>`
+      ).join("");
+      tb.querySelectorAll("tr").forEach((tr, i) => {
+        tr.onclick = () => {
+          const r = DATA[i];
+          document.getElementById("type").value = "AG";
+          onType();
+          document.getElementById("level2").value = r.l2;
+          onLevel2();
+          document.getElementById("ag").value = r.ag;
+          onAg();
+          document.querySelector('[data-pane="general"]').click();
+        };
+      });
+    }
+    fillLevel2();
+    onLevel2();
+    onType();
+    renderList();
+    document.getElementById("level2").value = "SALES";
+    onLevel2();
+    document.getElementById("ag").value = "SALES - BROKERAGE & COMMISSION";
+    onAg();
+    const params = new URLSearchParams(location.search);
+    if (params.get("tab") === "list") {
+      document.querySelector('[data-pane="list"]').click();
+    }
+    if (params.get("type") === "AC") {
+      document.getElementById("type").value = "AC";
+      onType();
+    }
+    if (params.get("cfl") === "loc") {
+      openCfl("loc");
+    }
+  </script>
+</body>
+</html>
